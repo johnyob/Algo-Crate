@@ -13,21 +13,19 @@
 from algo_crate.util import DEFAULT_CMP
 
 
-def quicksort(a, cmp=DEFAULT_CMP):
+def quicksort(a, l, r, cmp=DEFAULT_CMP):
+    # PRECONDITION: The subarray a[l:r + 1] contains (r + 1) - l comparable values.
 
-    def quicksort(a, l ,r):
-        # PRECONDITION: The subarray a[l:r + 1] contains (r + 1) - l comparable values.
+    # POSTCONDITION: The subarray a[l:r + 1] contains the same values as before, but the are now sorted in the given order
 
-        # POSTCONDITION: The subarray a[l:r + 1] contains the same values as before, but the are now sorted in the given order
+    if l < r:
+        # ASSERT: The subarray a[l:r + 1] has more than 1 element (non-trivial case)
 
-        if l < r:
-            # ASSERT: The subarray a[l:r + 1] has more than 1 element (non-trivial case)
+        p = partition(a, l, r, cmp)
+        quicksort(a, l, p - 1)
+        quicksort(a, p + 1, r)
 
-            p = partition(a, l, r, cmp)
-            quicksort(a, l, p - 1)
-            quicksort(a, p + 1, r)
 
-    quicksort(a, 0, len(a) - 1)
 
 
 def partition(a, l, r, cmp=DEFAULT_CMP):
