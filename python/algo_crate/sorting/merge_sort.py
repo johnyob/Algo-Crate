@@ -61,30 +61,23 @@ def merge(a, l, m, r, cmp=DEFAULT_CMP):
         k += 1
 
 
-def merge_sort(a, cmp=DEFAULT_CMP):
+def merge_sort(a, l, r, cmp=DEFAULT_CMP):
 
-    # PRECONDITION: Array a contains len(a) comparable values.
+    # PRECONDITION: The subarray a[l:r + 1] contains (r + 1) - l comparable values.
 
-    # POSTCONDITION: Array a contains the same values as before, but the are now sorted in the given order
+    # POSTCONDITION: The subarray a[l:r + 1] contains the same values as before, but the are now sorted in the given order
 
-    def merge_sort(a, l, r):
-        # PRECONDITION: The subarray a[l:r + 1] contains (r + 1) - l comparable values.
+    if l < r:
+        # ASSERT: The subarray a[l:r + 1] has more than 1 element (non-trivial case)
 
-        # POSTCONDITION: The subarray a[l:r + 1] contains the same values as before, but the are now sorted in the given order
+        m = floor((l + r) / 2)
 
-        if l < r:
-            # ASSERT: The subarray a[l:r + 1] has more than 1 element (non-trivial case)
+        # Divide and Conquer
+        merge_sort(a, l, m)
+        merge_sort(a, m + 1, r)
 
-            m = floor((l + r) / 2)
-
-            # Divide and Conquer
-            merge_sort(a, l, m)
-            merge_sort(a, m + 1, r)
-
-            # Combine
-            merge(a, l, m, r, cmp)
-
-    merge_sort(a, 0, len(a) - 1)
+        # Combine
+        merge(a, l, m, r, cmp)
 
 
 
