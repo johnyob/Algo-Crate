@@ -47,14 +47,15 @@ class LinkedList:
     def __len__(self):
         return self.len
 
-    def __str__(self):
-        return f"List: {iter(self)}."
+    def __repr__(self):
+        return f"List: {list(iter(self))}."
 
     def __iter__(self):
         xs = []
         x = self.nil.next
-        while x != self.nil:
+        while x is not self.nil:
             xs.append(x.k)
-        return xs
+            x = x.next
+        return iter(xs)
 
 
