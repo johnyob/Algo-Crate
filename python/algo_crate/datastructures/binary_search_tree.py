@@ -15,6 +15,20 @@ class BinarySearchTree:
     def is_empty(self):
         return self.root is None
 
+    def _find_parent(self, k):
+        x = self.root
+        y = None
+
+        while x is not None:
+            # ASSERT: x is not a leaf and y is the pointer to x's parent
+            y = x
+            if k < x.key:
+                x = x.left
+            else:
+                x = x.right
+
+        return y
+
     def transplant(self, u, v):
         assert u is not None
 
@@ -28,28 +42,27 @@ class BinarySearchTree:
         if v is not None:
             v.parent = u.parent
 
+    def insert_all(self, ks):
+        for k in ks:
+            self.insert(k)
+
     def insert(self, k):
-        if self.is_empty():
-            # ASSERT: the tree is empty
-            self.root = Node(k)
+        y = self._find_parent(k)
 
+        # Create the new node z
+        z = Node(k, y)
+
+        # Insert the node
+        if y is None:
+            self.root = z
+        elif z.key < y.key:
+            y.left = z
         else:
-            x = self.root
-            y = None
+            y.right = z
 
-            while x is not None:
-                # ASSERT: x is not a leaf and y is the pointer to x's parent
-                y = x
-                x = x.left if k < x.key else x.right
-
-            # Create the new node z
-            z = Node(k, y)
-
-            # Insert the node
-            if z.key < y.key:
-                y.left = z
-            else:
-                y.right = z
+    def delete_all(self, ks):
+        for k in ks:
+            self.delete(k)
 
     def delete(self, k):
         x = self.search(k)
