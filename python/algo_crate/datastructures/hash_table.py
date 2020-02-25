@@ -2,6 +2,7 @@ from random import choice
 
 from algo_crate.datastructures.linked_list import LinkedList
 
+
 class HashFunction:
     # An implementation of universal hashing
 
@@ -17,6 +18,7 @@ class HashFunction:
         return lambda k: ((a * k + b) % self.p) % self.m
 
     def __call__(self, x):
+        assert x < self.p, f"Universal hashing doesn't allow for keys above {self.p}"
         return choice(self.H)(x)
 
 
@@ -35,12 +37,12 @@ class HashTable:
         raise NotImplementedError
 
 
-class ChainedHashTable:
+class ChainedHashTable(HashTable):
 
     def __init__(self, m=10):
         super().__init__(m)
         self.table = [LinkedList() for _ in  range(m)]
-        self.h = HashFunction(p=7093532767, m=m)
+        self.h = HashFunction(p=347, m=m)
 
     def insert(self, x):
         self.table[self.h(x)].insert(x)
