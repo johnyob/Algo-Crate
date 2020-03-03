@@ -44,6 +44,9 @@ class Heap:
     def __len__(self):
         return len(self.a)
 
+    def __contains__(self, x):
+        return x in self.a
+
     def is_leaf(self, i):
         # Returns whether element at a[i] is a leaft.
         # Based on i > floor(n / 2) - 1 => a[i] is a leaf
@@ -84,6 +87,15 @@ class MaxHeap(Heap):
 
         return self.a[0]
 
+    def increase_key(self, i, k):
+        assert k < self.a[i]
+        self.a[i] = k
+
+        p = Heap.parent(i)
+        while i > 0 and self.cmp(self.a[p], self.a[i]) < 0:
+            self.a[i], self.a[p] = self.a[p], self.a[i]
+            i, p = p, Heap.parent(p)
+
     def extract_max(self):
 
         assert len(self) > 0
@@ -100,7 +112,7 @@ class MaxHeap(Heap):
         self.a.append(k)
 
         p = Heap.parent(i)
-        while i > -1 and self.cmp(self.a[p], self.a[i]) < 0:
+        while i > 0 and self.cmp(self.a[p], self.a[i]) < 0:
             self.a[i], self.a[p] = self.a[p], self.a[i]
             i, p = p, Heap.parent(p)
 
@@ -127,6 +139,15 @@ class MinHeap(Heap):
 
         return self.a[0]
 
+    def decrease_key(self, i, k):
+        assert k < self.a[i]
+        self.a[i] = k
+
+        p = Heap.parent(i)
+        while i > 0 and self.cmp(self.a[p], self.a[i]) > 0:
+            self.a[i], self.a[p] = self.a[p], self.a[i]
+            i, p = i, Heap.parent(p)
+
     def extract_min(self):
 
         assert len(self) > 0
@@ -143,7 +164,10 @@ class MinHeap(Heap):
         self.a.append(k)
 
         p = Heap.parent(i)
-        while i > -1 and self.cmp(self.a[p], self.a[i]) > 0:
+        while i > 0 and self.cmp(self.a[p], self.a[i]) > 0:
             self.a[i], self.a[p] = self.a[p], self.a[i]
             i, p = p, Heap.parent(p)
+
+
+
 
