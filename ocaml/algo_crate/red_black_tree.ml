@@ -137,6 +137,18 @@ module RedBlackTree (Ord : ORD) : (RED_BLACK_TREE with type k = Ord.t) = struct
       | Vertex n -> Vertex {n with c=Black} 
     in make_black (del t)
 
+  let rec search t k = match t with
+    | Empty -> raise Not_found
+    | Vertex {k=k'; l} when Ord.lt k k' -> search l k
+    | Vertex {k=k'; r} when Ord.gt k k' -> search r k
+    | _ -> t
+
+  let rec search_opt t k = match t with
+    | Empty -> None
+    | Vertex {k=k'; l} when Ord.lt k k' -> search l k
+    | Vertex {k=k'; r} when Ord.gt k k' -> search r k
+    | _ -> Some t
+
 
 end
 
